@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bitcoin</title>
+</head>
+<body>
+	<h1 id="myid"></h1>
+	<canvas id="myChart" width="1200px" height="470px"></canvas>
+	 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+
+
+var xlabel=[];
+var ylabel=[];
+var ctx = document.getElementById('myChart').getContext('2d');
+setInterval(plot,10000)
+async function plot(){
+	const responce = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+		const data=await  responce.json();
+		
+		const timestamp = Date.now();
+  
+   	ylabel.push(data.bpi.USD.rate_float*73.63);
+    xlabel.push(timestamp/1000);
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels:xlabel,
+        datasets: [{
+            label: 'BITCOIN rate in INR Realtime',
+            data: ylabel,
+            backgroundColor:  'rgba(240, 235, 103, 0.2)',
+            fill:false,
+            responsive:true,
+            borderColor: 'rgba(0,0,0, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: false
+                }
+            }]
+        }
+    }
+});
+
+}
+
+	
+ 
+plot()
+    
+	
+
+
+		
+	
+  
+
+	</script>
+</body>
+</html>	
